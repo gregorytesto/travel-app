@@ -9,6 +9,16 @@ const getAllPlaces = async()=>{
     }
 }
 
+const getOnePlace = async(id)=>{
+    try{
+        const place = await db.one("SELECT * FROM places WHERE id=$1", id);
+        return place;
+    }catch(err){
+        return err;
+    }
+}
+
 module.exports = {
-    getAllPlaces
+    getAllPlaces,
+    getOnePlace
 }

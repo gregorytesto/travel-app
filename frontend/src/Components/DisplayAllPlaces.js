@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 
 const DisplayAllPlaces=()=>{
     const [ places, setPlaces ] = useState([]);
@@ -7,16 +8,27 @@ const DisplayAllPlaces=()=>{
     const API = process.env.REACT_APP_API_URL;
 
     useEffect(()=>{
-        console.log("Trigger");
         axios.get(API + "/places")
             .then((res)=>{
-                console.log(res);
+                setPlaces(res.data);
             })
     }, [])
 
+    let placesToDisplay = places.map((place, index)=>{
+        return <li key={index}>
+                    {place.name}, 
+                    {place.city}
+                    <Link to={`/places/${place.id}`}>Details</Link>
+                </li>
+    })
 
     return (
-        <div>Displaying all places</div>
+        <div>
+            <div>Displaying all places</div>
+            <ul>
+                { placesToDisplay }
+            </ul>
+        </div>
     )
 }
 
